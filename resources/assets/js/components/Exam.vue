@@ -45,6 +45,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                    <a :href="'/exam/'+exam.id+'/history'" class="btn btn-success btn-sm">Хариултаа харах</a>
+                </div>
             </div>    
 
             <div v-if="!(days <= '0' &&  hours <= '0' && minutes <= '0' && seconds <= '0')">
@@ -82,6 +85,7 @@
                 start_time: this.start,
                 answers: null,
                 result: null,
+                exam: null,
                 now: 0,
                 count: 0,
             }
@@ -98,7 +102,8 @@
             sendResult() {
                 let answers = this.$refs.answers.paginated;
                 axios.patch('/exam/' + this.test.id + '/sendResult', {_result: answers}).then(response => {
-                    this.result = response.data;                                        
+                    this.result = response.data.result;
+                    this.exam = response.data.exam;
                 }).catch(errors => {
 
                 });

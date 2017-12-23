@@ -44170,6 +44170,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -44194,6 +44197,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             start_time: this.start,
             answers: null,
             result: null,
+            exam: null,
             now: 0,
             count: 0
         };
@@ -44213,7 +44217,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var answers = this.$refs.answers.paginated;
             axios.patch('/exam/' + this.test.id + '/sendResult', { _result: answers }).then(function (response) {
-                _this.result = response.data;
+                _this.result = response.data.result;
+                _this.exam = response.data.exam;
             }).catch(function (errors) {});
         }
     },
@@ -44406,7 +44411,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['questions', 'id'],
 
     data: function data() {
-        var paginated = _.chunk(this.questions, 2);
+        var paginated = _.chunk(this.questions, 5);
 
         return {
             checked: null,
@@ -44455,11 +44460,17 @@ var render = function() {
       _c("div", { staticClass: "container" }, [
         _c("div", { staticClass: "col-lg-12 text-center" }, [
           _c("div", { staticClass: "pull-left" }, [
-            _c(
-              "button",
-              { staticClass: "btn btn-default", on: { click: _vm.prev } },
-              [_c("span", { staticClass: "glyphicon glyphicon-chevron-left" })]
-            )
+            _vm.page > 0
+              ? _c(
+                  "button",
+                  { staticClass: "btn btn-default", on: { click: _vm.prev } },
+                  [
+                    _c("span", {
+                      staticClass: "glyphicon glyphicon-chevron-left"
+                    })
+                  ]
+                )
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c(
@@ -44469,11 +44480,17 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticClass: "pull-right" }, [
-            _c(
-              "button",
-              { staticClass: "btn btn-default", on: { click: _vm.next } },
-              [_c("span", { staticClass: "glyphicon glyphicon-chevron-right" })]
-            )
+            _vm.total - 1 > _vm.page
+              ? _c(
+                  "button",
+                  { staticClass: "btn btn-default", on: { click: _vm.next } },
+                  [
+                    _c("span", {
+                      staticClass: "glyphicon glyphicon-chevron-right"
+                    })
+                  ]
+                )
+              : _vm._e()
           ])
         ])
       ])
@@ -44546,11 +44563,17 @@ var render = function() {
       _c("div", { staticClass: "container" }, [
         _c("div", { staticClass: "col-lg-12 text-center" }, [
           _c("div", { staticClass: "pull-left" }, [
-            _c(
-              "button",
-              { staticClass: "btn btn-default", on: { click: _vm.prev } },
-              [_c("span", { staticClass: "glyphicon glyphicon-chevron-left" })]
-            )
+            _vm.page > 0
+              ? _c(
+                  "button",
+                  { staticClass: "btn btn-default", on: { click: _vm.prev } },
+                  [
+                    _c("span", {
+                      staticClass: "glyphicon glyphicon-chevron-left"
+                    })
+                  ]
+                )
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c(
@@ -44560,11 +44583,17 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticClass: "pull-right" }, [
-            _c(
-              "button",
-              { staticClass: "btn btn-default", on: { click: _vm.next } },
-              [_c("span", { staticClass: "glyphicon glyphicon-chevron-right" })]
-            )
+            _vm.total - 1 > _vm.page
+              ? _c(
+                  "button",
+                  { staticClass: "btn btn-default", on: { click: _vm.next } },
+                  [
+                    _c("span", {
+                      staticClass: "glyphicon glyphicon-chevron-right"
+                    })
+                  ]
+                )
+              : _vm._e()
           ])
         ])
       ])
@@ -44663,7 +44692,25 @@ var render = function() {
                   )
                 ])
               ])
-            ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"
+              },
+              [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-success btn-sm",
+                    attrs: { href: "/exam/" + _vm.exam.id + "/history" }
+                  },
+                  [_vm._v("Хариултаа харах")]
+                )
+              ]
+            )
           ])
         : _vm._e(),
       _vm._v(" "),

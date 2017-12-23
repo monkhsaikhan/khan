@@ -5,7 +5,7 @@
             <div class="container">                
                 <div class="col-lg-12 text-center">
                     <div class="pull-left">
-                        <button class="btn btn-default" @click="prev">
+                        <button class="btn btn-default" @click="prev" v-if="page > 0">
                             <span class="glyphicon glyphicon-chevron-left" ></span>
                         </button>
                     </div>
@@ -13,7 +13,7 @@
                         Шалгалт дуусгах
                     </button>
                     <div class="pull-right">
-                        <button class="btn btn-default" @click="next">
+                        <button class="btn btn-default" @click="next" v-if="total - 1 > page">
                             <span class="glyphicon glyphicon-chevron-right" ></span>
                         </button>
                     </div>
@@ -55,7 +55,7 @@
             <div class="container">
                 <div class="col-lg-12 text-center">
                     <div class="pull-left">
-                        <button class="btn btn-default" @click="prev">
+                        <button class="btn btn-default" @click="prev" v-if="page > 0">
                             <span class="glyphicon glyphicon-chevron-left" ></span>
                         </button>
                     </div>
@@ -63,7 +63,7 @@
                         Шалгалт дуусгах
                     </button>
                     <div class="pull-right">
-                        <button class="btn btn-default" @click="next">
+                        <button class="btn btn-default" @click="next" v-if="total - 1 > page">
                             <span class="glyphicon glyphicon-chevron-right" ></span>
                         </button>
                     </div>
@@ -81,7 +81,7 @@
 
 
         data() {
-            let paginated = _.chunk(this.questions, 2);
+            let paginated = _.chunk(this.questions, 5);
 
             return {
                 checked: null,
@@ -100,7 +100,7 @@
 
         methods: {
             next() {
-                if (this.total-1 > this.page) {
+                if (this.total - 1 > this.page) {
                     this.page++;
                 }
             },

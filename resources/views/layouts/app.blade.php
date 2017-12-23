@@ -60,6 +60,7 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="/home">Миний тестүүд</a></li>
+                                    <li><a href="{{ route('exam.histories') }}">Шалгалт өгсөн түүх</a></li>
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();

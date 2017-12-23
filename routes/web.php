@@ -18,6 +18,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/exam/{id}', 'HomeController@exam')->name('exam');
 Route::patch('/exam/{id}/sendResult', 'HomeController@sendResult')->name('exam.sendResult');
+Route::get('/exam/histories', 'HomeController@histories')->name('exam.histories');
+Route::get('/exam/{id}/history', 'HomeController@history')->name('exam.history');
 
 Route::get('/test/create', 'TestController@create')->name('test.create');
 

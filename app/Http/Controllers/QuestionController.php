@@ -54,22 +54,39 @@ class QuestionController extends Controller
      */
     public function store($id, Request $request)
     {
-        $parameters = $request->all();
+        \DB::transaction(function() use($id, $request) {
+            $parameters = $request->all();
 
-        if($request->has('id'))
-        {
-            $question = Question::findOrFail($request->get('id'));
-
-            $question->update($request->all());
-
-            foreach ($parameters['answers'] as $a)
+            if($request->has('id'))
             {
-                if(array_key_exists('id', $a))
-                {
-                    $answer = Answer::findOrFail($a['id']);
+                $question = Question::findOrFail($request->get('id'));
 
-                    $answer->update($a);
-                }else
+                $question->update($request->all());
+
+                foreach ($parameters['answers'] as $a)
+                {
+                    if(array_key_exists('id', $a))
+                    {
+                        $answer = Answer::findOrFail($a['id']);
+
+                        $answer->update($a);
+                    }else
+                    {
+                        Answer::create([
+                            'question_id' => $question->getKey(),
+                            'answer' => $a['answer'],
+                            'is_correct' => $a['is_correct']
+                        ]);
+                    }
+                }
+
+            } else {
+                $question = Question::create([
+                    'test_id' => $id,
+                    'question' => $parameters['question']
+                ]);
+
+                foreach ($parameters['answers'] as $a)
                 {
                     Answer::create([
                         'question_id' => $question->getKey(),
@@ -78,22 +95,7 @@ class QuestionController extends Controller
                     ]);
                 }
             }
-
-        } else {
-            $question = Question::create([
-                'test_id' => $id,
-                'question' => $parameters['question']
-            ]);
-
-            foreach ($parameters['answers'] as $a)
-            {
-                Answer::create([
-                    'question_id' => $question->getKey(),
-                    'answer' => $a['answer'],
-                    'is_correct' => $a['is_correct']
-                ]);
-            }
-        }
+        });
     }
 
     /**
